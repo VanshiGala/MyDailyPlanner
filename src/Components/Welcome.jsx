@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText, Button, ListGroup, ListGroupItem } from 'reactstrap';
+import {Button} from 'reactstrap';
 
 const Welcome = () => {
   const navigate = useNavigate(); // Use the useNavigate hook
@@ -10,10 +10,10 @@ const Welcome = () => {
   };
 
   return (
-    <div>
-      <h1>Welcome to your DAILY PLANNER</h1>
-      <p>Manage your tasks efficiently with ease!</p>
-      <Button onClick={handleLoginClick}>Login</Button> {/* Button to trigger navigation */}
+    <div className='wb'>
+      <h1 className='wh'>Welcome to your DAILY PLANNER</h1>
+      <p className='wp'>Manage your tasks efficiently with ease!</p>
+      <Button onClick={handleLoginClick} className='wbtn1'>Login</Button> {/* Button to trigger navigation */}
     </div>
   );
 };

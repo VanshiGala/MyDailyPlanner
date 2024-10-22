@@ -35,9 +35,9 @@ const TodoPage = () => {
   };
 
   return (
-    <div>
-      <h1>ToDo List with Checkboxes</h1>
-      <Form onSubmit={handleAddTask}>
+    <div className='tb'>
+      <h1 className='th'>ToDo List</h1>
+      <Form onSubmit={handleAddTask} className='tform'>
         <FormGroup>
           <Label for="task">New Task</Label>
           <Input
@@ -49,21 +49,20 @@ const TodoPage = () => {
             required
           />
         </FormGroup>
-        <Button type="submit" color="primary">Add Task</Button>
+        <Button type="submit" color="primary" className='tbtn'>Add Task</Button>
       </Form>
 
-      <h3 className="mt-4">Tasks</h3>
+      <h3 className="th1">Tasks</h3>
       {tasks.length === 0 ? (
-        <p>No tasks yet. Start adding some!</p>
+        <p className='tp'>No tasks yet. Start adding some!</p>
       ) : (
-        <ListGroup>
+        
+        <ol className='tL'>
           {tasks.map((task, index) => (
             <ListGroupItem
               key={index}
-              className="d-flex justify-content-between align-items-center"
-              style={{ textDecoration: task.completed ? 'line-through' : 'none' }} // Cross out completed tasks
             >
-              <div className="d-flex align-items-center">
+              <div>
                 <Input
                   type="checkbox"
                   checked={task.completed}
@@ -75,8 +74,9 @@ const TodoPage = () => {
                 Delete
               </Button>
             </ListGroupItem>
+        
           ))}
-        </ListGroup>
+        </ol>
       )}
     </div>
   );

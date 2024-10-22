@@ -28,34 +28,33 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className='lb'>
+      <h1 className='lh'>Login</h1>
       {error && <Alert color="danger">{error}</Alert>}
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} className='lform'>
         <FormGroup>
-          <Label for="email">Email</Label>
+          <Label for="email">Email: </Label>
           <Input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+            required/>
         </FormGroup>
-        <FormGroup>
-          <Label for="password">Password</Label>
+        <FormGroup >
+          <Label for="password">Password: </Label>
           <Input
             type="password"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+            required />
         </FormGroup>
-        <Button type="submit">Login</Button>
+        <Button type="submit" className='lbtn'>Login</Button>
       </Form>
     </div>
   );
 };
 
 export default Login;
+
