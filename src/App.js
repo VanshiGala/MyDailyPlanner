@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route,Routes, Navigate } from 'react-router-dom';
+import Welcome from './Components/Welcome';
+import Login from './Components/Login';
+import TodoPage from './Components/TodoPage';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = (status) => {
+    setIsLoggedIn(status);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/welcome" element={<Welcome />} /> {/* Use element instead of component */}
+        <Route path="/login" element={<Login onLogin={handleLogin} />} /> {/* Use element instead of render */}
+        <Route path="/todopage" element={isLoggedIn ? <TodoPage /> : <Navigate to="/welcome" />} // Use element prop for conditional rendering
+        />
+        <Route path="*" element={<Navigate to="/todopage" />} /> {/* Correct way to use Navigate */}
+      </Routes>
+    </Router>
   );
 }
 
