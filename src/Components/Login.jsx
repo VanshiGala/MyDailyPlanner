@@ -61,15 +61,19 @@ const Login = ({ setIsLoggedin }) => {
               Login
             </Button>
             
-            <button className='mt-3 size=xxl m-1 ' style={{ width: '2.5em', height: '2.5em' }}>
+            <div
+              className="text-center mt-3"
+              style={{ display: "flex", justifyContent: "space-around" }}>
+              <Button>
                 <BsGoogle />
-            </button>
-            <button className='mt-5 size=xxl m-5' style={{ width: '2.5em', height: '2.5em'}}>
+              </Button>
+              <Button>
                 <BsInstagram />
-            </button>
-            <button className='mt-5 size=xxl m-3'  style={{ width: '2.5em', height: '2.5em'}}>
+              </Button>
+              <Button>
                 <BsPinterest />
-            </button>
+              </Button>
+            </div>
          
           </Form>
         </Col>

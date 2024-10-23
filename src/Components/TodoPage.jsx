@@ -1,74 +1,146 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Form, FormGroup, Input, Button, ListGroup, ListGroupItem, Label } from 'reactstrap';
+import { Container, Card, CardBody, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Navbar, NavbarBrand, Nav, NavItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
-const TodoPage = () => {
-  const [tasks, setTasks] = useState([]);
-  const [task, setTask] = useState('');
+// Header with Navbar and Logout Button
+function Header() {
+  return (
+    <Navbar color="dark" dark expand="md">
+      <NavbarBrand href="/">TodoPage</NavbarBrand>
+      <Nav className="ml-auto" navbar>
+        <NavItem>
+          <Link to="/login">
+            <Button color="light">Logout</Button>
+          </Link>
+        </NavItem>
+      </Nav>
+    </Navbar>
+  );
+}
 
-  const handleAddTask = (e) => {
-    e.preventDefault();
-    if (task.trim()) {
-      setTasks([...tasks, { text: task, completed: false }]);
-      setTask('');
+// Todo Item Component
+function TodoItem({ todo, onDelete, onComplete }) {
+  return (
+    <li className="list-group-item">
+    <Card className="mb-3">
+      <CardBody>
+        <Row className="align-items-center">
+          {/* Checkbox to mark complete */}
+          <Col xs="auto">
+            <input type="checkbox" checked={todo.completed} onChange={() => onComplete(todo.id)} />
+          </Col>
+
+          {/* Task text, truncate if too long */}
+          <Col>
+             <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}> 
+              {todo.text.length > 50 ? `${todo.text.substring(0, 50)}...` : todo.text}
+            </span>
+          </Col>
+
+          {/* Delete Button */}
+          <Row className="justify-content-end">
+          <Col xs="auto">
+            <Button color="danger" onClick={() => onDelete(todo.id)} >
+              Delete
+            </Button>
+          </Col>
+          </Row>
+        </Row>
+      </CardBody>
+    </Card>
+    </li>
+  );
+}
+
+// Main TodoApp Component
+function TodoApp() {
+  const [todos, setTodos] = useState([
+    { id: 1, text: '', completed: false },
+    { id: 2, text: '', completed: false },
+  ]);
+  const [modal, setModal] = useState(false);
+  const [newTodo, setNewTodo] = useState('');
+
+  // Toggle modal visibility
+  const toggleModal = () => setModal(!modal);
+
+  // Add a new task
+  const saveTodo = () => {
+    if (newTodo.trim()) {
+      const newTask = { id: todos.length + 1, text: newTodo, completed: false };
+      setTodos([...todos, newTask]);
+      setNewTodo('');
+      toggleModal();
     }
   };
 
-  const handleToggleTask = (index) => {
-    const newTasks = tasks.map((t, i) =>
-      i === index ? { ...t, completed: !t.completed } : t
-    );
-    setTasks(newTasks);
+  // Delete a task
+  const deleteTodo = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
-  const handleDeleteTask = (index) => {
-    const newTasks = tasks.filter((_, i) => i !== index);
-    setTasks(newTasks);
+  // Mark task as completed
+  const completeTodo = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   };
 
   return (
-    <Container fluid className="mt-0"style={{ backgroundColor: '#999999', minHeight:'100vh'}}>
-      <h1 className='text-center'>Plan Your Day!</h1>
-      <Form onSubmit={handleAddTask}>
-        
-        <FormGroup className='p-3'>
-          <Input 
+    <div fluid style={{ backgroundColor: '#999999', minHeight:'100vh'}}>
+      <Header />
+      <Container >
+        {/* Add Task Button */}
+        <Row className="justify-content-start">
+          <Col md="12" >
+            <Button color="primary" onClick={toggleModal} className="mt-3 mb-2">
+              Add Task
+            </Button>
+          </Col>
+        </Row>
+
+         {/* Ordered List of Todos using Grid */}
+        <ol className="list-group">
+          {todos.map((todo, index) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              index={index}
+              onDelete={deleteTodo}
+              onComplete={completeTodo}
+            />
+          ))}
+        </ol>
+      </Container>
+
+      {/* Modal for Adding a New Task */}
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Add New Task</ModalHeader>
+        <ModalBody>
+        <ol className="list-group">
+            <Col md='2'>
+          <Input
             type="text"
-            placeholder="Add a new task"
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-            required
+            placeholder="Enter task details..."
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)} 
           />
-        </FormGroup>
-        
-        <Button color="primary" type="submit">Add Task</Button>
-      </Form>
-      <Row className="mt-2">
-        <Col xs='4'>
-          <ListGroup>
-            {tasks.map((task, index) => (
-              <ListGroupItem key={index} className="d-flex justify-content-between align-items-center">
-                <div>
-                  <Input
-                    type="checkbox"
-                    checked={task.completed}
-                    onChange={() => handleToggleTask(index)}
-                    aria-label="Checkbox for task completion"
-                  />
-                  <Label className={task.completed ? 'completed' : ''} style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
-                    {task.text}
-                  </Label>
-                </div>
-                <Button color="danger" onClick={() => handleDeleteTask(index)} size="sm">
-                  Delete
-                </Button>
-              </ListGroupItem>
-            ))}
-          </ListGroup>
-        </Col>
-      </Row>
-    </Container>
+            </Col>
+        </ol>
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={saveTodo}>
+            Save
+          </Button>
+          <Button color="secondary" onClick={toggleModal}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </div>
   );
-};
+}
 
-export default TodoPage;
-
+export default TodoApp;
