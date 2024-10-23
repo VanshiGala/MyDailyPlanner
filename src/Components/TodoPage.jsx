@@ -120,7 +120,7 @@ function TodoApp() {
         <ModalHeader toggle={toggleModal}>Add New Task</ModalHeader>
         <ModalBody>
         <ol className="list-group">
-            <Col md='2'>
+            <Col md='12'>
           <Input
             type="text"
             placeholder="Enter task details..."
@@ -131,12 +131,13 @@ function TodoApp() {
         </ol>
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={saveTodo}>
-            Save
-          </Button>
-          <Button color="secondary" onClick={toggleModal}>
-            Cancel
-          </Button>
+             <Button color="primary" onClick={saveTodo}>
+                Save
+             </Button>
+             <Button color="secondary" onClick={toggleModal}>
+                Cancel
+             </Button>
+          
         </ModalFooter>
       </Modal>
     </div>
