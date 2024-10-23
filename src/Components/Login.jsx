@@ -1,60 +1,71 @@
-// Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap'; // Import Reactstrap components
+import { Button, Form, FormGroup, Input, Container, Row, Col } from 'reactstrap';
 
-const Login = ({ onLogin }) => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+const Login = ({ setIsLoggedin }) => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
+  const navigate = useNavigate();
+
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Simple validation (you can expand this as needed)
-    if (!email.includes('@') || password.length < 6) {
-      setError('Please enter a valid email and a password with at least 6 characters.');
+
+    // Basic validation
+    if (!username || !password) {
+      setErrorMessage('Please enter both username and password.');
       return;
     }
 
-    // Assuming successful login
-    onLogin(true); // Call the function to update the login state
-    navigate('/todopage'); // Redirect to the TodoPage
+    if (password.length < 6) {
+      setErrorMessage('Password must be at least 6 characters long.');
+      return;
+    }
 
-    //If login not successfull
-    // onLogin(false);
-    // navigate('/welcome');
+    // Set login status and navigate to /todo page
+    setIsLoggedin(true);
+    navigate('/todopage');
   };
 
   return (
-    <div className='lb'>
-      <h1 className='lh'>Login</h1>
-      {error && <Alert color="danger">{error}</Alert>}
-      <Form onSubmit={handleSubmit} className='lform'>
-        <FormGroup>
-          <Label for="email">Email: </Label>
-          <Input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required/>
-        </FormGroup>
-        <FormGroup >
-          <Label for="password">Password: </Label>
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required />
-        </FormGroup>
-        <Button type="submit" className='lbtn'>Login</Button>
-      </Form>
-    </div>
+    <Container fluid className="justify-content-center align-items-center "style={{ minHeight: '100vh', backgroundColor: '#b2b2b2', }}>
+      <Row className="justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
+        <Col xs="4">
+          <h2 className="text-center mb-4" style={{ color: '#323232'}}>Login</h2>
+          <Form onSubmit={handleSubmit}>
+            <FormGroup>
+              <Input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                style={{ backgroundColor: '#6272a4', color: '#f8f8f2', border: '1px solid #f8f8f2'}}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{ backgroundColor: '#6272a4', color: '#f8f8f2', border: '1px solid #f8f8f2' }}
+              />
+            </FormGroup>
+            {errorMessage && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p>}
+            <Button type="submit" className="w-100" style={{ backgroundColor: '#ff79c6', border: 'none' }}>
+              Login
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
 export default Login;
+
+
+
 

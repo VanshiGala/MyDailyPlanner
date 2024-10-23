@@ -1,85 +1,74 @@
 import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, ListGroup, ListGroupItem } from 'reactstrap';
+import { Container, Row, Col, Form, FormGroup, Input, Button, ListGroup, ListGroupItem, Label } from 'reactstrap';
 
 const TodoPage = () => {
-  const [task, setTask] = useState(''); // State to hold the new task input
-  const [tasks, setTasks] = useState([]); // State to hold the list of tasks
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState('');
 
-  // Handle adding a new task
   const handleAddTask = (e) => {
     e.preventDefault();
-
-    // Ensure the task is not empty
-    if (task.trim() === '') {
-      return;
+    if (task.trim()) {
+      setTasks([...tasks, { text: task, completed: false }]);
+      setTask('');
     }
-
-    // Add the new task to the list with 'completed' status as false initially
-    setTasks([...tasks, { name: task, completed: false }]);
-    setTask(''); // Clear the input field after adding
   };
 
-  // Handle deleting a task
-  const handleDeleteTask = (index) => {
-    // Remove the task by filtering it out
-    const updatedTasks = tasks.filter((_, i) => i !== index);
-    setTasks(updatedTasks);
-  };
-
-  // Handle toggling the completion status of a task
   const handleToggleTask = (index) => {
-    const updatedTasks = tasks.map((task, i) =>
-      i === index ? { ...task, completed: !task.completed } : task
+    const newTasks = tasks.map((t, i) =>
+      i === index ? { ...t, completed: !t.completed } : t
     );
-    setTasks(updatedTasks);
+    setTasks(newTasks);
+  };
+
+  const handleDeleteTask = (index) => {
+    const newTasks = tasks.filter((_, i) => i !== index);
+    setTasks(newTasks);
   };
 
   return (
-    <div className='tb'>
-      <h1 className='th'>ToDo List</h1>
-      <Form onSubmit={handleAddTask} className='tform'>
-        <FormGroup>
-          <Label for="task">New Task</Label>
-          <Input
+    <Container fluid className="mt-0"style={{ backgroundColor: '#999999', minHeight:'100vh'}}>
+      <h1 className='text-center'>Plan Your Day!</h1>
+      <Form onSubmit={handleAddTask}>
+        
+        <FormGroup className='p-3'>
+          <Input 
             type="text"
-            id="task"
+            placeholder="Add a new task"
             value={task}
-            onChange={(e) => setTask(e.target.value)} // Update the task state on input change
-            placeholder="Enter your task here"
+            onChange={(e) => setTask(e.target.value)}
             required
           />
         </FormGroup>
-        <Button type="submit" color="primary" className='tbtn'>Add Task</Button>
+        
+        <Button color="primary" type="submit">Add Task</Button>
       </Form>
-
-      <h3 className="th1">Tasks</h3>
-      {tasks.length === 0 ? (
-        <p className='tp'>No tasks yet. Start adding some!</p>
-      ) : (
-        
-        <ol className='tL'>
-          {tasks.map((task, index) => (
-            <ListGroupItem
-              key={index}
-            >
-              <div>
-                <Input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={() => handleToggleTask(index)} // Toggle completion on checkbox click
-                />
-                <span style={{ marginLeft: '10px' }}>{task.name}</span>
-              </div>
-              <Button color="danger" onClick={() => handleDeleteTask(index)}>
-                Delete
-              </Button>
-            </ListGroupItem>
-        
-          ))}
-        </ol>
-      )}
-    </div>
+      <Row className="mt-2">
+        <Col xs='4'>
+          <ListGroup>
+            {tasks.map((task, index) => (
+              <ListGroupItem key={index} className="d-flex justify-content-between align-items-center">
+                <div>
+                  <Input
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={() => handleToggleTask(index)}
+                    aria-label="Checkbox for task completion"
+                  />
+                  <Label className={task.completed ? 'completed' : ''} style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                    {task.text}
+                  </Label>
+                </div>
+                <Button color="danger" onClick={() => handleDeleteTask(index)} size="sm">
+                  Delete
+                </Button>
+              </ListGroupItem>
+            ))}
+          </ListGroup>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
 export default TodoPage;
+

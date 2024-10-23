@@ -1,29 +1,25 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route,Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Welcome from './Components/Welcome';
 import Login from './Components/Login';
-import TodoPage from './Components/TodoPage';
-
-
+import Todopage from './Components/TodoPage';
+import { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import { BsBrightnessHigh } from "react-icons/bs";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = (status) => {
-    setIsLoggedIn(status);
-  };
+  const [isLoggedin, setIsLoggedin] = useState(false);
 
   return (
     <Router>
       <Routes>
-        <Route path="/welcome" element={<Welcome />} /> {/* Use element instead of component */}
-        <Route path="/login" element={<Login onLogin={handleLogin} />} /> {/* Use element instead of render */}
-        <Route path="/todopage" element={isLoggedIn ? <TodoPage /> : <Navigate to="/welcome" />} // Use element prop for conditional rendering
-        />
-        <Route path="*" element={<Navigate to="/todopage" />} /> {/* Correct way to use Navigate */}
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/login" element={<Login setIsLoggedin={setIsLoggedin} />} />
+        <Route path="/todopage" element={isLoggedin ? <Todopage /> : <Navigate to="/TodoPage" />} />
+        <Route path="*" element={<Navigate to="/welcome" />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+
