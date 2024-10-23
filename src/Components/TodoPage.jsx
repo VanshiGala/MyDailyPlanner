@@ -54,10 +54,9 @@ function TodoItem({ todo, onDelete, onComplete }) {
 
 // Main TodoApp Component
 function TodoApp() {
-  const [todos, setTodos] = useState([
-    { id: 1, text: '', completed: false },
-    { id: 2, text: '', completed: false },
-  ]);
+   const [todos, setTodos] = useState([
+     
+   ]);
   const [modal, setModal] = useState(false);
   const [newTodo, setNewTodo] = useState('');
 
