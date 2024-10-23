@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Form, FormGroup, Input, Container, Row, Col } from 'reactstrap';
+import { BsGoogle } from 'react-icons/bs';
+import { BsInstagram } from 'react-icons/bs';
+import { BsPinterest} from 'react-icons/bs';
 
 const Login = ({ setIsLoggedin }) => {
   const [username, setUsername] = useState('');
@@ -57,6 +60,17 @@ const Login = ({ setIsLoggedin }) => {
             <Button type="submit" className="w-100" style={{ backgroundColor: '#ff79c6', border: 'none' }}>
               Login
             </Button>
+            
+            <button className='mt-3 size=xxl m-1 ' style={{ width: '2.5em', height: '2.5em' }}>
+                <BsGoogle />
+            </button>
+            <button className='mt-5 size=xxl m-5' style={{ width: '2.5em', height: '2.5em'}}>
+                <BsInstagram />
+            </button>
+            <button className='mt-5 size=xxl m-3'  style={{ width: '2.5em', height: '2.5em'}}>
+                <BsPinterest />
+            </button>
+         
           </Form>
         </Col>
       </Row>
