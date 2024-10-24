@@ -28,9 +28,10 @@ const Login = ({ setIsLoggedin }) => {
     }
 
     // Set login status and navigate to /todo page
-    setIsLoggedin(true);
+   setIsLoggedin(true);
     navigate('/todopage');
   };
+  
 
   return (
     <Container fluid className="justify-content-center align-items-center "style={{ minHeight: '100vh', backgroundColor: '#b2b2b2', }}>
@@ -83,7 +84,3 @@ const Login = ({ setIsLoggedin }) => {
 };
 
 export default Login;
-
-
-
-
