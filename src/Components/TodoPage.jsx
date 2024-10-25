@@ -5,8 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 // Header with Navbar and Logout Button
 function Header() {
   return (
-    <Navbar style={{ backgroundColor: 'black' }} dark expand="md">
-      <NavbarBrand href="/welcome">TodoPage</NavbarBrand>
+    <Navbar  className="bg-black dark">
+      <NavbarBrand href="/welcome" className='text-white'>TodoPage</NavbarBrand>
       <Nav className="ml-auto" navbar>
         <NavItem>
           <Link to="/login">
@@ -161,7 +161,8 @@ function TodoPage() {
           ))}
         </ol>
         {/* Bin Button */}
-        <Button color="warning" onClick={navigateToBin} style={{position: 'absolute',top: '55px',right: '1px',zIndex: 1000,}}>
+        <Button color="warning" onClick={navigateToBin} className="absolute top-[55px] right-[1px] z-[1000]"
+>
           Go to Bin
         </Button>
       </Container>
@@ -174,10 +175,10 @@ function TodoPage() {
           ))}
         </ol>
 
-        //
+        
 
       {/* Input Box for Adding a New Task */}
-      <div className="todo-input-box" style={{ position: 'fixed', bottom: 0, width: '100%', padding: '10px', backgroundColor: '#ffffff', borderTop: '1px solid #ccc' }}>
+      <div className="todo-input-box fixed bottom-0 w-full p-[10px] bg-white border-t border-gray-300">
         <Input
           type="text"
           placeholder="Enter a new task..."

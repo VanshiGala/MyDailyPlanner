@@ -20,7 +20,7 @@ const Welcome = () => {
   }, []);
 
   return (
-    <Container fluid className= "justify-content-center align-items-center"style={{ backgroundColor: '#cccccc', minHeight:'100vh'}}>
+    <Container fluid className= "justify-content-center align-items-center bg-gray-200 min-h-screen">
       <Row>
         <Col xs="12">
           <h1 className="text-center p-5">Plan. Prioritize. Prosper!</h1>
