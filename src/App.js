@@ -4,25 +4,25 @@ import Welcome from './Components/Welcome';
 import Login from './Components/Login';
 import TodoPage from './Components/TodoPage';
 import Bin from './Components/Bin';
+import Header from './Components/Header';
 import 'bootstrap/dist/css/bootstrap.min.css';
+// App > Login
+// TODO
+// Header -> logout
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState('');
-  
+  const [isAuthenticated, setIsAuthenticated] = useState(false);  
 
   // Check for logged-in status in localStorage
   useEffect(() => {
     const storedUsername = localStorage.getItem('username');
     if (storedUsername) {
-      setUsername(storedUsername);
       setIsAuthenticated(true);
     }
   }, []);
 
   // Handle login logic
   const handleLogin = (usernameInput) => {
-    setUsername(usernameInput);
     setIsAuthenticated(true);
     localStorage.setItem('username', usernameInput); // Store the username in localStorage
   };
@@ -30,12 +30,13 @@ function App() {
   // Handle logout logic
   const handleLogout = () => {
     setIsAuthenticated(false);
-    setUsername('');
     localStorage.removeItem('username'); // Clear the username from localStorage
   };
 
   return (
+    <>      
     <Router>
+      <Header handleLogout={handleLogout}/>
       <Routes>
         {/* Welcome Page Route */}
         <Route path="/welcome" element={<Welcome />} />
@@ -43,12 +44,12 @@ function App() {
        {/* Login Route */}
         <Route
           path="/login"
-          element={!isAuthenticated ? <Login setIsLoggedin ={handleLogin} /> : <Navigate to="/todopage" />}
+          element={!isAuthenticated ? <Login handleLogin = {handleLogin} /> : <Navigate to="/todopage" />}
         />
         {/* TodoPage Route */}
         <Route
           path="/todopage"
-          element={isAuthenticated ? <TodoPage username={username} onLogout={handleLogout} /> : <Navigate to="/login" />}
+          element={isAuthenticated ? <TodoPage/> : <Navigate to="/login" />}
         />
 
         {/* Bin Page Route */}
@@ -64,6 +65,7 @@ function App() {
         />
       </Routes>
     </Router>
+    </>
   );
 }
 

@@ -5,7 +5,7 @@ import { BsGoogle } from 'react-icons/bs';
 import { BsInstagram } from 'react-icons/bs';
 import { BsPinterest} from 'react-icons/bs';
 
-const Login = ({ setIsLoggedin }) => {
+const Login = ({ handleLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,13 +22,14 @@ const Login = ({ setIsLoggedin }) => {
       return;
     }
 
-    if (password.length < 6) {
-      setErrorMessage('Password must be at least 6 characters long.');
+    if (password.length < 4) {
+      setErrorMessage('Password must be at least 4 characters long.');
       return;
     }
+    
 
     // Set login status and navigate to /todo page
-   setIsLoggedin(true);
+    handleLogin(username);
     navigate('/todopage');
   };
   
